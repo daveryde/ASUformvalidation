@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- 
+      David Cordova
+      Feb 29th, 2020
+      GIT 417 Final 
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Final Project</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark-reasonable.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+  </head>
+
+  <body>
+    <!-- Global Container -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Header -->
+          <header class="d-flex justify-content-center align-items-center">
+            <h1 class="border-bottom border-dark">Validating Submitted Data</h1>
+        </div>
+        <div class="col-sm-12 mb-3">
+          <p class="author text-muted">By: David Cordova</p>
+        </div>
+        </header>
+        <!-- Main / Introduction -->
+        <main class="container">
+          <article class="row mb-4">
+            <div class="col-lg-10 col-md-8 col-sm-12 mx-auto">
+              <h2><u>Introduction</u></h2>
+              <p class="py-3">
+                JavaScript is commonly used with forms for two reasons: to add functionality that makes forms easier
+                for users to fill out, and to validate or process the data that a user enters before that data is
+                submitted to server-side script. <code>Validation</code> is the process of checking that information
+                provided by
+                users conforms to rules to ensure that it appropriately answers the form's questions and is provided in
+                a
+                format that the site's back-end programs can work with.
+              </p>
+              <p>
+                In Chapters 1 - 3, we learned core JavaScript concepts, accessing the DOM, and
+                events. In Chapters 4 - 6, we learned how to manipulate the DOM, debug, and implement form validation.
+                One
+                event, <mark>submit</mark>, is available for use with the <mark>form</mark> element. The
+                <code>submit</code> event
+                fires when a form is submitted, which is generally when a submit button is selected on a form. In this
+                article, we will briefly discuss browser based form validation and custom JavaScript form validation.
+                There are many ways to pick a DOM node that lets us access specific elements, such as a form, but we
+                will target the <code>click</code> event for full custom validation.
+              </p>
+            </div>
+          </article>
+          <hr class="border-dark">
+          <!-- Aside / Topic Menu Index -->
+          <aside class="row justify-content-center align-items-center">
+            <div class="col-lg-3 mb-4">
+              <h2 class="pb-3"><u>Index</u></h2>
+              <div class="pt-4 list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-browser-list" data-toggle="list"
+                  href="#list-browser" role="tab" aria-controls="browser">1. Browser Validation
+                </a>
+                <a class="list-group-item list-group-item-action" id="list-javascript-list" data-toggle="list"
+                  href="#list-javascript" role="tab" aria-controls="javascript">2. JavaScript Validation
+                </a>
+                <a class="list-group-item list-group-item-action" id="list-test-list" data-toggle="list"
+                  href="#list-test" role="tab" aria-controls="test">3. Test / Debug
+                </a>
+              </div>
+            </div>
+            <!-- Topic Breakdown with Links -->
+            <div class="col-sm-12 col-lg-7">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-browser" role="tabpanel"
+                  aria-labelledby="list-browser-list">
+                  <p>
+                    Browser Based Validation
+                  </p>
+                  <pre><code class="language-html">&lt;form novalidate&gt;<br>&ltinput type="text" required /&gt;<br>&lt;/form&gt;</code></pre>
+                  <p>
+                    See <a href="#browserValidation">More ..</a>
+                  </p>
+                </div>
+                <div class="tab-pane fade" id="list-javascript" role="tabpanel" aria-labelledby="list-javascript-list">
+                  <p>
+                    JavaScript Validation
+                  </p>
+                  <pre
+                    class="rounded"><code class="javascript">var form = document.getElementsByTagName("form")[0];<br><br>if (form.addEventListener) {<br>  form.addEventListener("submit", validateForm, false);<br>} else if (form.attachEvent) {<br>  form.attachEvent("onsubmit", validateForm);<br>}</code></pre>
+                  <p>
+                    See <a href="#javascriptValidation">More ..</a>
+                  </p>
+                </div>
+                <div class="tab-pane fade" id="list-test" role="tabpanel" aria-labelledby="list-test-list">
+                  <p>
+                    Test /
+                    Debug
+                  </p>
+                  <p>
+                    See <a href="#testDebug">More ..</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <hr class='mb-5 border-dark'>
+          <!-- Browser Based Validation -->
+          <section>
+            <div class="col-sm-10 col-lg-12 mb-5 jumbotron text-center shadow-sm" id="browserValidation">
+              <h2 class="display-4">Browser Based Validation</h2>
+            </div>
+            <p class="my-5">
+              Form validation normally used to occur at the server, after the client entered all the necessary data and
+              then pressed the submit button. JavaScript provides a way to validate form's data on the client's computer
+              before sending it to the web server. HTML5 has introduced features to validate form input. Some examples
+              are checking for empty fields when you requires text input or checking if a
+              number was typed into a number input and not a string. The form will display validation errors (bubbles)
+              near the input that did not pass validation.
+            </p>
+            <p class="my-5">
+              For basic form validation,
+              HTML5 integrates
+              <a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" target="_blank">client-side
+                validation</a> by providing attributes that can be placed into your HTML. This makes validation faster
+              and
+              easier to implement, however, it's not ideal if your project involves checking for specific input. Here
+              are some of the new atttributes available for your form.
+            </p>
+            <h3 class="border-bottom border-dark my-5 pb-2 text-center">Form Attributes</h3>
+            <div class="card-deck mb-4">
+              <div class="card shadow ">
+                <div class="card-body">
+                  <h4 class="card-title text-center">Form - Attributes</h4>
+                  <code>
+                  <p class="card-text">novalidate</p>
+                  <p class="card-text">autocomplete="on"</p>
+                </code>
+                </div>
+              </div>
+              <div class="card shadow ">
+                <div class="card-body">
+                  <h4 class="card-title text-center">Input - Types</h4>
+                  <code>
+                  <p class="card-text">text</p>
+                  <p class="card-text">email</p>
+                  <p class="card-text">url</p>
+                  <p class="card-text">number</p>
+                  <p class="card-text">tel</p>
+                  <p class="card-text">date</p>
+                </code>
+                </div>
+              </div>
+              <div class="card shadow ">
+                <div class="card-body">
+                  <h4 class="card-title text-center">Input - Attributes</h4>
+                  <code>
+                  <p class="card-text">required</p>
+                  <p class="card-text">placeholder</p>
+                  <p class="card-text">pattern</p>
+                  <p class="card-text">min</p>
+                  <p class="card-text">max</p>
+                </code>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center my-5">
+              <div class="col-sm-12 col-lg-5">
+                <h2>HTML5 Validation Example</h2>
+              </div>
+              <div class="col-sm-12 col-lg-7 my-5">
+                <pre
+                  class="rounded"><code class="language-html">&lt;form autocomplete="off" novalidate&gt;<br>&lt;input type="text" id="name" required /&gt;<br>&lt;input type="email" id="email" placeholder="me@email.com" required /&gt;<br>&lt;/form&gt;</code></pre>
+              </div>
+            </div>
+          </section>
+          <!-- JavaScript Validation -->
+          <section>
+            <div class="col-sm-10 col-lg-12 my-5 jumbotron text-center shadow-sm" id="javascriptValidation">
+              <h2 class="display-4">JavaScript Validation</h2>
+            </div>
+            <p class="my-5">
+              Form validation can be handled two ways: along side the <code>contraint validation
+              API</code> to customize aspects of the way browsers present browser-based validation or handled entirely
+              by
+              custom
+              JavaScript code. We are going to review custom JavaScript form validation starting with our main function
+              to control or handle the steps we want our validation to go through.
+            </p>
+            <div class="row justify-content-between align-items-center">
+              <div class="col-sm-12 col-lg-5 my-5 py-5">
+                <p>
+                  A. <mark>event.preventDefault();</mark> disables the default behavior for the referenced event,
+                  essentially blocking the action
+                  normally associated with the submit event.
+                </p>
+                <p>
+                  B. <mark>retrieveElements();</mark> accesses the DOM and
+                  find
+                  our form elements once the client submits the form.
+                </p>
+                <p>
+                  C. <mark>createListeners();</mark> will listen for the submit button to be clicked.
+                </p>
+                <p>
+                  D. <mark>validateForm();</mark> is where we write our custom validation code based on the values
+                  submitted by the
+                  client.
+                </p>
+              </div>
+              <div class="col-sm-12 col-lg-7 my-5">
+                <h4>1. Form Controller</h4>
+                <pre
+                  class="rounded"><code class="javascript">function handleForm(event) {<br>  /* Prevent form submit */<br>  event.preventDefault();<br><br>  /* Initialize elements */<br>  retrieveElements();<br><br>  /* Setup event listeners */<br>  createListeners();<br><br>  /* Validate Form */<br>  validateForm();<br>}</code></pre>
+              </div>
+            </div>
+          </section>
+          <!-- Find Elements and Create Event Listeners -->
+          <section>
+            <div class="col-sm-10 col-lg-12 mb-5 jumbotron text-center shadow-sm" id="eventListeners">
+              <h2 class="display-4">Find The Form Elements</h2>
+            </div>
+            <p class="my-5">
+              In this next step, we skip over setting up the HTML and CSS target element selectors. We are using
+              <a href='https://getbootstrap.com' target='_blank'>Bootstrap CSS</a> for structure and ease of styling.
+              You
+              might have written your own CSS and
+              your CSS selectors already which is absolutely fine. Modify the code to your project needs.
+            </p>
+            <p class="my-5">
+              Ideally, we want to wait for the web page to load completely before we use the
+              <mark>addEventListener</mark> to listen for the client to submit the form.
+              For the rest of our programming logic, we create a function to retrieve our target elements using
+              <mark>querySelector</mark>. Finally, we create another function that will listen for when the client
+              submits the
+              form.
+            </p>
+            <div class="row justify-content-center align-items-center my-5">
+              <div class="col-sm-12 col-lg-5">
+                <h2>Page loaded Example</h2>
+              </div>
+              <div class="col-sm-12 col-lg-7 my-5">
+                <h3>1. Load Event</h3>
+                <pre
+                  class="rounded"><code class="javascript">/* Create an event listener when the DOM loads */<br>if (window.addEventListener) {<br>  window.addEventListener("load", createListners, false);<br>} else if (form.attachEvent) {<br>  window.attachEvent("onload", createListeners);<br>}</code></pre>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center my-5">
+              <div class="col-sm-12 col-lg-5">
+                <h2>Find Elements Example</h2>
+              </div>
+              <div class="col-sm-12 col-lg-7">
+                <h3>2. DOM</h3>
+                <pre
+                  class="rounded"><code class="javascript">function retrieveElements() {<br> /* Get form input elements from DOM */<br>  email = document.querySelector('#inputEmail');<br>  password = document.querySelector('#inputPassword');<br>  address = document.querySelector('#inputAddress');<br>  address2 = document.querySelector('#inputAddress2');<br>  city= document.querySelector('#inputCity');<br>  state = document.querySelector('#inputState');<br>  zip = document.querySelector('#inputZip');<br>  checkBox = document.querySelector('#inputCheck');<br>  radio = document.querySelector('#inputRadio');<br>}</code></pre>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center my-5">
+              <div class="col-sm-12 col-lg-5">
+                <h2>Submit Button Example</h2>
+              </div>
+              <div class="col-sm-12 col-lg-7 my-5">
+                <h3>3. Click Event</h3>
+                <pre
+                  class="rounded"><code class="javascript">function createListeners() {<br>  /* Find the submit button and listen for click event */<br>  submit = document.getElementById('submit');<br>  submit.addEventListener('click', handleForm, false);<br>}</code></pre>
+              </div>
+            </div>
+          </section>
+          <!-- Code The Validation -->
+          <section>
+            <div class="col-sm-10 col-lg-12 my-5 jumbotron text-center shadow-sm" id="codeValidation">
+              <h2 class="display-4">Code The Validation</h2>
+            </div>
+            <p class="my-5">
+              The form validation rules are written via comparing the client submitted values against a test case
+              scenario.
+              JavaScript has <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects"
+                target="_blank">built-in
+                functions</a> that make checking values a bit easier. In <mark>validateForm()</mark>, we use the
+              built-in function <mark>includes('@')</mark>
+              to check if the string value of email included the '@' symbol.
+            </p>
+            <p>
+              To keep this article brief, there are different ways we can compare a value using the built-in functions
+              but make sure you understand the type of value you are validating. The built-in functions may give
+              unexpected results when you are unsure of the value type (i.e. string, integer, boolean).
+            </p>
+            <p class="mt-5">
+              <span class="text-danger">BAD</span>:<br><br>
+              Checking whether a string variable <mark>name</mark> is a number
+            </p>
+            <pre><code>var name = 'David';<br><br>/* "isNaN" means Not-A-Number.<br>   "!isNaN" means the opposite of Not-A-Number<br>   This checks whether the variable 'name' is a number */<br>if(!isNaN(name)) {<br>  messageDiv.textContent = 'Looks Good!';<br>}</code></pre>
+            <p class="mt-5">
+              <span class="text-success">GOOD</span>:<br><br>
+              Checking whether an integer variable <mark>number</mark> is a number
+            </p>
+            <pre><code>var number = 12345;<br><br>if(!isNaN(number)) {<br>  messageDiv.textContent = 'Looks Good!';<br>}</code></pre>
+            <div class="row justify-content-center align-items-center my-5">
+              <div class="col-sm-12 col-lg-5">
+                <h2>Validation Example</h2>
+              </div>
+              <div class="col-sm-12 col-lg-7 my-5">
+                <pre
+                  class="rounded"><code class="javascript">function validateForm() {<br>  /* Check input and display custom message */<br>  if (email.value === '' || !email.value.includes('@')) {<br>    emailFeedback.classList.add('text-danger');<br>    email.classList.add('border', 'border-danger');<br>    emailFeedback.textContent = 'Please Enter A Valid Email';<br>  } else {<br>    emailFeedback.classList.remove('text-danger');<br>    email.classList.remove('border', 'border-danger');<br>    emailFeedback.classList.add('text-success');<br>    emailFeedback.textContent = 'Looks Good!');<br><br>  /* Your custom validation code here */<br>}</code></pre>
+              </div>
+            </div>
+          </section>
+          <!-- Test / Debug -->
+          <section>
+            <div class="col-sm-10 col-lg-12 my-5 jumbotron text-center shadow-sm" id="testDebug">
+              <h2 class="display-4">Test / Debug</h2>
+            </div>
+            <p class="my-5">
+              When writing JavaScript code, you will most likely run into <mark>bugs</mark> or issues with your code.
+              The first step to tracing and debugging your code is to put <mark>console.log(variable);</mark>
+              statements in your code, monitor the output in your browser's console, and adjust accordingly. If this
+              doesn't help and you need additional debugging support, then you may access your browser developer tools.
+              <a href="https://developers.google.com/web/tools/chrome-devtools">Chrome</a>, <a
+                href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_are_browser_developer_tools">Firefox</a>,
+              and <a href="https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide">Edge</a> provide in depth
+              documentation on how to use these to debug your code.
+            </p>
+            <p class="my-5">
+              If you've been following along, your code should look or feel similar to the full example code below.
+            </p>
+            <div class="row justify-content-center my-5">
+              <!-- <div class="col-sm-12 col-lg-5 my-5"> -->
+              <div class="col-sm-12 col-lg-10 my-5">
+                <p class="codepen" data-height="465" data-theme-id="dark" data-default-tab="html,result"
+                  data-user="daveryde" data-slug-hash="jOPwMxx"
+                  style="height: 465px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+                  data-pen-title="Custom Form Validation">
+                  <span>See the Pen <a href="https://codepen.io/daveryde/pen/jOPwMxx">
+                      Custom Form Validation</a> by David Cordova (<a href="https://codepen.io/daveryde">@daveryde</a>)
+                    on <a href="https://codepen.io">CodePen</a>.</span>
+                </p>
+                <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+              </div>
+              <div class="col-sm-12 col-lg-10 my-5">
+                <pre
+                  class="rounded"><code class="javascript">'use strict';<br><br>/* Global variables for user input element */<br>var email,<br>  password,<br>  address,<br>  address2,<br>  city,<br>  state,<br>  zip,<br>  checkBox,<br>  radio,<br>  submit;<br><br>function handleForm(event) {<br>  /* Prevent form submit */<br>  event.preventDefault();<br><br>  /* Initialize elements */<br>  retrieveElements();<br><br>  /* Setup event listeners */<br>  createListeners();<br><br>  /* Validate Form */<br>  validateForm();<br>}<br><br>function retrieveElements() {<br>  /* Get form input elements from DOM */<br>  email = document.querySelector('#inputEmail');<br>  password = document.querySelector('#inputPassword');<br>  address = document.querySelector('#inputAddress');<br>  address2 = document.querySelector('#inputAddress2');<br>  city= document.querySelector('#inputCity');<br>  state = document.querySelector('#inputState');<br>  zip = document.querySelector('#inputZip');<br>  checkBox = document.querySelector('#inputCheck');<br>  radio = document.querySelector('#inputRadio');<br>}<br><br>function createListeners() {<br>  /* Find the submit button and listen for click event */<br>  submit = document.getElementById('submit');<br>  submit.addEventListener('click', handleForm, false);<br>}<br><br>function validateForm() {<br>  /* Check input and display custom message */<br>  if (email.value === '' || !email.value.includes('@')) {<br>    emailFeedback.classList.add('text-danger');<br>    email.classList.add('border', 'border-danger');<br>    emailFeedback.textContent = 'Please Enter A Valid Email';<br>  } else {<br>    emailFeedback.classList.remove('text-danger');<br>    email.classList.remove('border', 'border-danger');<br>    emailFeedback.classList.add('text-success');<br>    emailFeedback.textContent = 'Looks Good!');<br>}<br><br>/* Create an event listener when the DOM loads */<br>if (window.addEventListener) {<br>  window.addEventListener("load", createListeners, false);<br>} else if (form.attachEvent) {<br>  window.attachEvent("onload", createListeners);<br>}</code></pre>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+
+    <!-- Highlight JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+
+</html>
